@@ -1,0 +1,67 @@
+
+  <!-- Importación de las fuentes -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Kalam:wght@300;400;700&family=Knewave&family=Modak&family=Protest+Revolution&family=Rowdies:wght@300;400;700&family=Shizuru&family=Special+Elite&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Knewave&family=Modak&family=Protest+Revolution&family=Rowdies:wght@300;400;700&family=Special+Elite&display=swap');
+  </style>
+
+  <style>
+    /* Fuentes para los textos */
+    .font-itf-wt {
+      font-size: 4rem;
+      font-weight: bold;
+      font-family: 'Annie Use Your Telescope', sans-serif; /* Fuente para ITF y WT */
+    }
+
+    .font-vs {
+      font-family: 'Kalam', cursive; /* Fuente para Vs */
+    }
+
+    /* Responsividad de los tamaños de fuente */
+    @media (max-width: 767px) {
+      .font-itf-wt {
+        font-size: 3rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+      }
+
+      .font-vs {
+        font-size: 2rem; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+      }
+    }
+
+    /* Estilo para el video */
+    .video-container {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <section class="w-full flex flex-wrap md:flex-row justify-between p-8 mb-10">
+    <!-- Video (izquierda en pantallas grandes, abajo en pantallas pequeñas) -->
+    <div class="w-full md:w-1/2 z-10 order-2 md:order-1">
+      <div class="w-full max-w-3xl aspect-video relative video-container">
+        <iframe 
+          class="w-full h-full rounded-lg shadow-lg" 
+          src="https://www.youtube.com/embed/MwNr_WetovE" 
+          title="YouTube video" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <!-- Contenido de texto (derecha en pantallas grandes, arriba en pantallas pequeñas) -->
+    <div class="p-6 w-full md:w-1/2 z-10 flex justify-center items-center flex-col order-1 md:order-2">
+      <!-- Título -->
+      <div class="text-center">
+        <h2 class="text-4xl md:text-5xl font-bold titulo-vestimenta">
+          <span class="font-itf-wt text-red-900">ITF</span> 
+          <span class="font-vs text-yellow-300">¿Es lo mismo?</span>
+          <span class="font-itf-wt text-blue-900">WT</span>
+        </h2>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

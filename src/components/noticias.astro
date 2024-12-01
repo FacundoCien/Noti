@@ -1,0 +1,217 @@
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+
+  <section id="noticias" class="mb-10">
+    <div id="loading-spinner" class="spinner"></div>
+    <div class="swiper centered-slide-carousel swiper-container">
+      <div class="swiper-wrapper" id="swiper-wrapper"></div>
+    </div>
+  </section>
+
+  <script type="module">
+    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #03003f;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 50px auto;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .swiper-container {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .swiper-wrapper {
+        display: flex;
+        width: 100%;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        height: 500px;
+        overflow: hidden;
+        background-color: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .card:hover {
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+        padding: 16px;
+      }
+
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+      }
+
+      .card-date {
+        font-size: 0.875rem;
+        color: #6b7280;
+      }
+
+      .card-description {
+        font-size: 0.875rem;
+        color: #4b5563;
+        flex-grow: 1;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+      }
+
+      .card-button {
+        display: inline-block;
+        background-color: #1b00b6;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .card-button:hover {
+        background-color: #040041;
+      }
+
+      @media (min-width: 1920px) {
+        .swiper-slide {
+          width: 33.33%;
+          padding: 0 15px;
+        }
+      }
+
+      @media (min-width: 1028px) and (max-width: 1919px) {
+        .swiper-slide {
+          width: 50%;
+          padding: 0 15px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .swiper-slide {
+          width: 100%;
+          padding: 0 10px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const apiUrl = "https://magicloops.dev/api/loop/a09adea2-2c54-432f-89b4-173af8fb1db4/run?input=I+love+Magic+Loops%21";
+
+    async function fetchAndRenderSlides() {
+      const swiperWrapper = document.getElementById("swiper-wrapper");
+      const loadingSpinner = document.getElementById("loading-spinner");
+
+      try {
+        loadingSpinner.style.display = 'block';
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const articles = data.articles;
+
+        if (articles.length > 0) {
+          articles.forEach((article) => {
+            const slide = document.createElement("div");
+            slide.className = "swiper-slide";
+
+            slide.innerHTML = `
+              <div class="card">
+                <img src="${article.image}" alt="${article.title_es}">
+                <div class="card-content">
+                  <h3 class="card-title">${article.title_es}</h3>
+                  <span class="card-date">${article.date || "No disponible"}</span>
+                  <p class="card-description">${article.description_es}</p>
+                  <a href="${article.article_link}" target="_blank" class="card-button">Leer más</a>
+                </div>
+              </div>
+            `;
+
+            swiperWrapper.appendChild(slide);
+          });
+        } else {
+          swiperWrapper.innerHTML = "<p>No hay artículos disponibles.</p>";
+        }
+      } catch (error) {
+        console.error('Error al cargar los datos:', error);
+        swiperWrapper.innerHTML = "<p>Error al cargar los artículos. Intenta más tarde.</p>";
+      } finally {
+        loadingSpinner.style.display = 'none';
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchAndRenderSlides);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      new Swiper(".centered-slide-carousel", {
+        centeredSlides: true,
+        loop: true,
+        spaceBetween: 30,
+        grabCursor: true,
+        touchRatio: 1,
+        resistance: true,
+        resistanceRatio: 0.5,
+        effect: "coverflow",
+        coverflowEffect: {
+          rotate: 20,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: false, // Paginación eliminada
+        breakpoints: {
+          1920: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+          1028: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+        },
+      });
+    });
+  </script>
+</body>
+</html>

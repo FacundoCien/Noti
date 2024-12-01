@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noti-Do</title>
+  <link rel="icon" href="img/logo.svg" type="image/svg" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Rowdies:wght@300;400;700&family=Special+Elite&display=swap');
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #B0B0B0; /* Gris claro */
+      border-radius: 10px;
+      border: 2px solid #B0B0B0;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #7A7A7A; /* Gris oscuro al hacer hover */
+      border: 2px solid #7A7A7A;
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+      background-color: #153d6b; /* Azul oscuro al hacer clic */
+      border: 2px solid #153d6b;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: #F5F5F5; /* Fondo gris claro */
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-horizontal {
+      height: 8px;
+    }
+
+    html {
+  scroll-behavior: smooth;
+    }
+
+    /* Agregar la fuente personalizada a Tailwind CSS */
+    .font-rowdies {
+      font-family: 'Kalam', cursive;
+    }
+
+    /* Animación del carrusel */
+    @keyframes carousel {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .carousel-track {
+      display: flex;
+      width: 200%; /* Duplicamos contenido para el efecto continuo */
+      animation: carousel 20s linear infinite;
+    }
+
+    .carousel-item {
+      flex: 0 0 auto;
+      width: 10%; /* Ajusta el ancho de las imágenes */
+      padding: 0.5rem; /* Espaciado entre imágenes */
+    }
+
+    img {
+      object-fit: contain; /* Mantiene la proporción original de las imágenes */
+    }
+
+    .swiper-wrapper {
+      width: 100%;
+      height: auto !important;
+      padding-bottom: 64px !important;
+      -webkit-transition-timing-function: linear !important;
+      transition-timing-function: linear !important;
+      position: relative;
+    }
+
+    .swiper-pagination-bullet {
+      background: #6366F1;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: #4338CA !important;
+    }
+
+    /* Estilo mejorado de las tarjetas */
+    .card {
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      height: 500px; /* Altura fija para todas las tarjetas */
+      overflow: hidden; /* Para evitar que el contenido se desborde */
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Contenido de la tarjeta */
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1; /* Esto asegura que el contenido ocupe todo el espacio disponible */
+      padding: 16px;
+      height: 100%; /* Asegura que el contenido ocupe toda la tarjeta */
+    }
+
+    /* Imagen */
+    .card img {
+      width: 100%;
+      height: 200px; /* Altura fija para la imagen */
+      object-fit: cover;
+    }
+
+    /* Ajuste en el contenido de texto */
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1f2937; /* Gris oscuro */
+      margin-bottom: 0.5rem;
+    }
+
+    .card-date {
+      font-size: 0.875rem;
+      color: #6b7280; /* Gris claro */
+    }
+
+    .card-description {
+      font-size: 0.875rem;
+      color: #4b5563; /* Gris intermedio */
+      flex-grow: 1; /* Asegura que la descripción ocupe el espacio restante */
+      margin-bottom: 1rem;
+      overflow: hidden; /* Evita que el texto se desborde */
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3; /* Limita el número de líneas visibles */
+
+    }
+
+    .card-button {
+      display: inline-block;
+      background-color: #1b00b6;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .card-button:hover {
+      background-color: #040041;
+    }
+
+    /* Estilo para el spinner de carga */
+    .spinner {
+      border: 4px solid #f3f3f3; /* Fondo claro */
+      border-top: 4px solid #03003f; /* Color del spinner */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 50px auto;
+    }
+
+    /* Animación del spinner */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="w-full h-screen bg-cover bg-center relative" style="background-image: url('img/fp.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
+      <div class="flex items-center space-x-1">
+        <h1 class="text-8xl font-bold font-rowdies">Noti-Do</h1>
+      </div>
+      <p class="mt-4 text-lg max-w-lg">
+        Mantente informado sobre el mundo del Taekwondo ITF. Consulta las últimas noticias internacionales y conoce más sobre este deporte.
+      </p>
+      <div class="mt-8">
+        <a href="#noticias" class="inline-block px-10 py-1 text-sm font-semibold text-white border-2 border-white rounded-full hover:px-20 transition-all">
+          Ver Noticias
+        </a>
+      </div>
+      <div class="mt-8">
+        <a class="animate-bounce flex justify-center items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white transform transition-all " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </div>  
+    </div>
+</section>
+
+<section class="bentos-info flex justify-center items-center min-h-screen px-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 p-4 mx-auto">
+    <div class="col-span-1 sm:col-span-2 lg:col-span-3 lg:row-span-3 relative bg-cover bg-center p-6 shadow-lg rounded-md h-full" 
+         style="background-image: url('img/1.png'); background-size: cover; background-position: center;">
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <h2 class="text-2xl font-semibold text-blue-400 mb-4 relative z-10">Fundación</h2>
+      <p class="text-lg text-white relative z-10">
+        La ITF fue fundada en 1966 por el General Choi Hong Hi, quien es considerado el creador del Taekwon-Do. 
+        Su objetivo fue promover el arte marcial en el mundo con una fuerte base filosófica y técnica.
+      </p>
+    </div>
+    <div class="col-span-1 sm:col-span-1 lg:col-span-2 lg:row-span-3 relative bg-cover bg-center p-6 shadow-lg rounded-md h-full" 
+         style="background-image: url('img/2.png'); background-size: cover; background-position: center;">
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <h2 class="text-2xl font-semibold text-blue-400 mb-4 relative z-10">Enfoque</h2>
+      <p class="text-lg text-white relative z-10">
+        ITF enfatiza las técnicas de <span class="font-bold text-blue-400">defensa personal</span> y los 
+        <span class="font-bold text-blue-400">patrones (tuls)</span>, que son secuencias de movimientos que reflejan combates imaginarios. 
+        El enfoque está en la <span class="font-bold text-blue-400">precisión</span>, <span class="font-bold text-blue-400">control</span> 
+        y <span class="font-bold text-blue-400">técnica</span>.
+      </p>
+    </div>
+    <div class="col-span-1 sm:col-span-1 lg:col-span-2 lg:row-span-3 relative bg-cover bg-center p-6 shadow-lg rounded-md h-full" 
+         style="background-image: url('img/3.png'); background-size: cover; background-position: center;">
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <h2 class="text-2xl font-semibold text-blue-400 mb-4 relative z-10">Estilo de Combate</h2>
+      <p class="text-lg text-white relative z-10">
+        ITF utiliza un estilo de combate <span class="font-bold text-blue-400">semilibre</span>, donde se permite el contacto ligero a moderado. 
+        Las reglas permiten golpes al cuerpo y a la cara, pero generalmente se prohíbe el uso de patadas por debajo de la cintura.
+      </p>
+    </div>
+    <div class="col-span-1 sm:col-span-2 lg:col-span-3 lg:row-span-3 relative bg-cover bg-center p-6 shadow-lg rounded-md h-full" 
+         style="background-image: url('img/4.png'); background-size: cover; background-position: center;">
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <h2 class="text-2xl font-semibold text-blue-400 mb-4 relative z-10">Formas y Técnicas</h2>
+      <p class="text-lg text-white relative z-10">
+        Las formas o <span class="font-bold text-blue-400">tuls</span> de ITF siguen secuencias muy específicas que incluyen movimientos 
+        rectos y circulares, destacando el <span class="font-bold text-blue-400">equilibrio</span> y la <span class="font-bold text-blue-400">técnica</span> 
+        en cada movimiento. Estos patrones son esenciales para el entrenamiento en Taekwon-Do.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="noticias" class="w-full max-w-6xl px-6 mx-auto">
+  <div id="loading-spinner" class="spinner"></div>
+  <div class="swiper centered-slide-carousel swiper-container">
+    <div class="swiper-wrapper" id="swiper-wrapper"></div>
+    <div class="swiper-pagination mt-4"></div>
+  </div>
+</section>
+
+<section class="w-full overflow-hidden p-8 space-x-8">
+  <div class="carousel-track">
+    <a href="https://eitf-taekwondo.org" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/europe.jpg" alt="Europa" class="w-full h-auto max-h-24">
+    </a>
+    <a href="https://itf-tfa.co.za/" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/africa.jpg" alt="África" class="w-full h-auto max-h-24">
+    </a>
+    <a href="https://atf-tkd.org/" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/asia.jpg" alt="Asia" class="w-full h-auto max-h-24">
+    </a>
+    <a href="https://www.facebook.com/pg/Panam-Taekwon-Do-Council-Ptc-Itf-413891605483274/" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/panama.jpg" alt="Panamá" class="w-full h-auto max-h-24">
+    </a>
+    <a href="http://www.digitalstorm.com.au/tkd/index.htm" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/oceania.jpg" alt="Oceanía" class="w-full h-auto max-h-24">
+    </a>
+    <!-- Duplicación para efecto continuo -->
+    <a href="https://eitf-taekwondo.org" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/europe.jpg" alt="Europa" class="w-full h-auto max-h-24">
+    </a>
+    <a href="https://itf-tfa.co.za/" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/africa.jpg" alt="África" class="w-full h-auto max-h-24">
+    </a>
+    <a href="https://atf-tkd.org/" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/asia.jpg" alt="Asia" class="w-full h-auto max-h-24">
+    </a>
+    <a href="https://www.facebook.com/pg/Panam-Taekwon-Do-Council-Ptc-Itf-413891605483274/" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/panama.jpg" alt="Panamá" class="w-full h-auto max-h-24">
+    </a>
+    <a href="http://www.digitalstorm.com.au/tkd/index.htm" target="_blank" class="carousel-item">
+      <img src="https://www.itf-tkd.org/images/oceania.jpg" alt="Oceanía" class="w-full h-auto max-h-24">
+    </a>
+  </div>
+</section>
+
+<section class="w-full py-8">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-red-500">Normativas ITF</h2>
+  </div>
+  <div class="flex flex-wrap justify-center gap-6 px-6">
+    <div class="bg-white p-6 rounded-lg w-80 text-center">
+      <img src="https://img.icons8.com/?size=60&id=9761&format=png&color=000000" alt="Logo Competencia" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Competencia</h3>
+      <p class="text-gray-600">Establece las rondas, duración y condiciones para ganar por puntos o nocaut técnico.</p>
+    </div>
+      <div class="bg-white p-6 rounded-lg w-80 text-center">
+      <img src="https://img.icons8.com/?size=60&id=71285&format=png&color=000000" alt="Logo Técnicas Permitidas" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Técnicas Permitidas</h3>
+      <p class="text-gray-600">Solo se permiten golpes con puños, patadas y movimientos defensivos.</p>
+    </div>
+      <div class="bg-white p-6 rounded-lg w-80 text-center">
+      <img src="https://img.icons8.com/?size=60&id=74666&format=png&color=000000" alt="Logo Puntuación" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Puntuación</h3>
+      <p class="text-gray-600">Se otorgan puntos por golpes controlados en áreas específicas del cuerpo.</p>
+    </div>
+      <div class="bg-white p-6 rounded-lg w-80 text-center">
+      <img src="https://img.icons8.com/?size=60&id=Hu8HYn5CINJ5&format=png&color=000000" alt="Logo Penalizaciones" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Penalizaciones</h3>
+      <p class="text-gray-600">Se sancionan faltas como golpes ilegales o no seguir instrucciones del árbitro.</p>
+    </div>
+      <div class="bg-white p-6 rounded-lg w-80 text-center">
+      <img src="https://img.icons8.com/?size=60&id=9795&format=png&color=000000" alt="Logo Equipamiento" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Equipamiento</h3>
+      <p class="text-gray-600">Los competidores deben usar dobok y protección adecuada (casco, guantes, etc.).</p>
+    </div>
+      <div class="bg-white p-6 rounded-lg w-80 text-center">
+      <img src="https://img.icons8.com/?size=60&id=ZLsTR92kwTQL&format=png&color=000000" alt="Logo Disciplina" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Disciplina</h3>
+      <p class="text-gray-600">El Taekwondo promueve el respeto y la cortesía entre los participantes.</p>
+    </div>
+  </div>
+  <div class="text-center mt-8">
+    <a href="https://itftkd.sport/es/reglas/" target="_blank">
+      <button class="border-2 border-red-500 text-red-500 py-3 px-10 rounded-lg text-lg font-semibold transition duration-300 ease-in-out hover:bg-red-500 hover:text-white">
+        Explorar Normativas
+      </button>
+    </a>
+  </div>
+</section>
+
+<section class="flex flex-wrap md:flex-nowrap justify-between p-8 space-x-0 md:space-x-8 relative bg-cover bg-center mb-8" 
+style="background-image: url('img/fondo4.png'); background-size: cover; background-position: center;">
+  <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-lg"></div>
+  <div class="p-6 w-full md:w-1/2 z-10">
+    <div class="p-4 text-center text-[#1900FF]">
+      <h2 class="text-4xl md:text-5xl font-bold">Vestimenta ITF</h2>
+    </div>
+    <div class="p-4 text-center text-white mt-4">
+      <p class="text-lg">
+        En el <span class="text-blue-500">Taekwon-Do</span>, los materiales utilizados para los 
+        <span class="text-blue-500">uniformes</span> y accesorios juegan un papel fundamental en la práctica del arte marcial. 
+        Los <span class="text-blue-500">doboks</span> y otros elementos están hechos de telas resistentes y duraderas, diseñadas para 
+        soportar los rigores del entrenamiento intensivo. Además, los materiales deben ofrecer comodidad y flexibilidad para 
+        permitir movimientos ágiles y precisos durante las prácticas y competiciones.
+      </p>
+    </div>
+  </div>
+  <div class="w-full md:w-1/2 z-10 mt-6 md:mt-0">
+    <img src="img/ropa.png" alt="Dobok ITF" class="w-full h-full object-cover rounded-md">
+  </div>
+</section>
+
+<section class="w-full flex justify-center p-8 mb-8" style="background-image: url('img/f1.svg'); background-size: cover; background-position: center;">
+  <div class="w-full max-w-3xl aspect-video relative">
+    <iframe 
+      class="w-full h-full rounded-lg shadow-lg" 
+      src="https://www.youtube.com/embed/MwNr_WetovE" 
+      title="YouTube video" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </div>
+</section>
+
+<section class="w-full bg-cover bg-center py-6" style="background-image: url('img/ft.svg'); background-repeat: no-repeat;">
+  <div class="flex flex-wrap justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8">
+    <div class="w-full sm:w-auto text-center">
+      <div class="flex items-center space-x-4 justify-center sm:justify-start">
+        <h1 class="text-4xl font-bold font-rowdies text-white">Noti-Do</h1>
+        <img src="img/logo.svg" alt="Logo" class="w-16">
+      </div>
+    </div>
+    <div class="w-full sm:w-auto text-center">
+      <p class="text-lg text-white mb-4 sm:mb-0">© 2024 Noti-Do. Todos los derechos reservados.</p>
+    </div>
+    <div class="flex flex-col space-y-2 text-center">
+      <a href="mailto:contacto@notido.com" class="text-white text-base hover:text-blue-500">contacto@notido.com</a>
+      <a href="tel:+1234567890" class="text-white text-base mb-2 hover:text-blue-500">+123 456 7890</a>
+      <a href="https://www.google.com/maps" class="text-white text-base hover:text-blue-500">Calle 123, Ciudad</a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
+
+
+
+  <!-- Script para inicializar Swiper y cargar datos dinámicamente -->
+  <script>
+    const apiUrl = "https://magicloops.dev/api/loop/run/2ba9ed25-0bab-49fe-bbd3-86c8156f1dc4?input=I+love+Magic+Loops%21";
+
+    async function fetchAndRenderSlides() {
+      const swiperWrapper = document.getElementById("swiper-wrapper");
+      const loadingSpinner = document.getElementById("loading-spinner");
+
+      try {
+        // Fetch de la API
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const articles = data.loopOutput.articles;
+
+        // Crear y añadir las tarjetas dinámicamente
+        articles.forEach((article) => {
+          const slide = document.createElement("div");
+          slide.className = "swiper-slide";
+
+          slide.innerHTML = ` 
+            <div class="card bg-white rounded-xl shadow-lg">
+              <!-- Imagen -->
+              <img src="${article.image_link}" alt="${article.title}" class="object-cover">
+
+              <!-- Contenido -->
+              <div class="card-content">
+                <!-- Título -->
+                <h3 class="card-title">${article.title}</h3>
+
+                <!-- Fecha -->
+                <span class="card-date">Fecha: ${article.date || "No disponible"}</span>
+
+                <!-- Descripción -->
+                <p class="card-description">${article.description}</p>
+
+                <!-- Botón -->
+                <a href="${article.article_link}" target="_blank" rel="noopener noreferrer" class="card-button">
+                  Leer más
+                </a>
+              </div>
+            </div>
+          `;
+
+          swiperWrapper.appendChild(slide);
+        });
+
+        // Inicializar Swiper después de cargar las tarjetas
+        new Swiper(".centered-slide-carousel", {
+        centeredSlides: true, // Las diapositivas se centran
+        loop: true, // Loop infinito (desplazamiento circular)
+        spaceBetween: 30, // Espaciado entre las diapositivas
+        grabCursor: true, // Cambiar el cursor al arrastrar
+        touchRatio: 1, // Sensibilidad del arrastre
+        resistance: true, // Limitar el arrastre
+        resistanceRatio: 0.5, // Controlar cuánto puedes arrastrar antes de que "rebote"
+
+        effect: "coverflow", // Efecto 3D
+        coverflowEffect: {
+          rotate: 20, // Ángulo de rotación 3D más sutil
+          stretch: 0, // Sin estiramiento adicional entre diapositivas
+          depth: 100, // Profundidad de las diapositivas
+          modifier: 1, // Intensidad del efecto
+          slideShadows: true, // Sombras para dar un efecto visual de profundidad
+        },
+
+        slideToClickedSlide: false, // No moverse directamente al hacer clic en una diapositiva
+        paginationClickable: false, // Paginación no interactiva
+        pagination: {
+          el: ".swiper-pagination", // Mostrar paginación, pero no es clickeable
+          clickable: true, // La paginación sigue siendo interactiva
+        },
+
+        breakpoints: {
+          1920: {
+            slidesPerView: 3, // Mostrar 3 diapositivas completas
+            spaceBetween: 30, // Espaciado más amplio para pantallas grandes
+          },
+          1028: {
+            slidesPerView: 2, // Mostrar 2 diapositivas en pantallas medianas
+            spaceBetween: 20, // Menor espaciado
+          },
+          768: {
+            slidesPerView: 1, // Solo una diapositiva visible en pantallas pequeñas
+            spaceBetween: 10, // Espaciado mínimo
+          },
+        },
+      });
+
+
+        // Ocultar el spinner y mostrar las tarjetas
+        loadingSpinner.style.display = "none";
+
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+        swiperWrapper.innerHTML = "<p class='text-white'>Error al cargar los datos.</p>";
+      }
+    }
+
+    fetchAndRenderSlides();
+  </script>
+

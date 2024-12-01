@@ -1,0 +1,51 @@
+---
+import 'aos/dist/aos.css';
+---
+
+<style>
+    /* Importar fuentes desde Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Rowdies:wght@300;400;700&family=Special+Elite&display=swap');
+    
+    /* Agregar la fuente personalizada */
+    .font-rowdies {
+      font-family: 'Kalam', cursive;
+    }
+  </style>
+
+  <section class="w-full h-screen bg-cover bg-center relative" style="background-image: url('/public/fp.jpg');">
+    <!-- Fondo tipo glass -->
+    <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+  
+    <!-- Contenido -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
+      <div class="flex items-center space-x-1">
+        <h1 class="text-8xl font-bold font-rowdies">Noti-Do</h1>
+      </div>
+  
+      <!-- Descripción -->
+      <p class="mt-4 text-lg max-w-lg">
+        Mantente informado sobre el mundo del Taekwondo ITF. Consulta las últimas noticias internacionales y conoce más sobre este deporte.
+      </p>
+  
+      <!-- Botón minimalista -->
+      <div class="mt-8">
+        <a href="#noticias" 
+           class="inline-block px-10 py-1 text-sm font-semibold text-white border-2 border-white rounded-full 
+                  hover:bg-white hover:text-black 
+                  transition-colors duration-200 ease-in-out">
+          Ver Noticias
+        </a>
+      </div>
+      
+  
+      <!-- Flechita animada -->
+      <div class="mt-8">
+        <a class="animate-bounce flex justify-center items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white transform transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  

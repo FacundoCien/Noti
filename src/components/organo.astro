@@ -1,0 +1,65 @@
+
+<style>
+    /* Animación del carrusel */
+    @keyframes carousel {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .carousel-track {
+      display: flex;
+      width: 200%; /* Duplicamos contenido para el efecto continuo */
+      animation: carousel 20s linear infinite;
+    }
+
+    .carousel-item {
+      flex: 0 0 auto;
+      width: 10%; /* Ajusta el ancho de las imágenes */
+      padding: 0.5rem; /* Espaciado entre imágenes */
+    }
+
+    img {
+      object-fit: contain; /* Mantiene la proporción original de las imágenes */
+    }
+  </style>
+
+  <!-- Carrusel -->
+  <section class="w-full overflow-hidden p-8 space-x-8 mb-10">
+    <div class="carousel-track">
+      <!-- Imágenes del carrusel -->
+      <a href="https://eitf-taekwondo.org" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/europe.jpg" alt="Europa" class="w-full h-auto max-h-24">
+      </a>
+      <a href="https://itf-tfa.co.za/" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/africa.jpg" alt="África" class="w-full h-auto max-h-24">
+      </a>
+      <a href="https://atf-tkd.org/" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/asia.jpg" alt="Asia" class="w-full h-auto max-h-24">
+      </a>
+      <a href="https://www.facebook.com/pg/Panam-Taekwon-Do-Council-Ptc-Itf-413891605483274/" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/panama.jpg" alt="Panamá" class="w-full h-auto max-h-24">
+      </a>
+      <a href="http://www.digitalstorm.com.au/tkd/index.htm" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/oceania.jpg" alt="Oceanía" class="w-full h-auto max-h-24">
+      </a>
+      <!-- Duplicación para efecto continuo -->
+      <a href="https://eitf-taekwondo.org" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/europe.jpg" alt="Europa" class="w-full h-auto max-h-24">
+      </a>
+      <a href="https://itf-tfa.co.za/" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/africa.jpg" alt="África" class="w-full h-auto max-h-24">
+      </a>
+      <a href="https://atf-tkd.org/" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/asia.jpg" alt="Asia" class="w-full h-auto max-h-24">
+      </a>
+      <a href="https://www.facebook.com/pg/Panam-Taekwon-Do-Council-Ptc-Itf-413891605483274/" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/panama.jpg" alt="Panamá" class="w-full h-auto max-h-24">
+      </a>
+      <a href="http://www.digitalstorm.com.au/tkd/index.htm" target="_blank" class="carousel-item">
+        <img src="https://www.itf-tkd.org/images/oceania.jpg" alt="Oceanía" class="w-full h-auto max-h-24">
+      </a>
+    </div>

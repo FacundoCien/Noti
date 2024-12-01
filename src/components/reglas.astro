@@ -1,0 +1,100 @@
+<style>
+  /* Estilo para ocultar los elementos inicialmente */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+
+  /* Estilo para cuando el elemento es visible */
+  .fade-up-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Seleccionar todos los elementos con la clase 'fade-up'
+    const elements = document.querySelectorAll('.fade-up');
+    
+    // Función que verifica si el elemento está en el viewport
+    function isInViewport(element) {
+      const rect = element.getBoundingClientRect();
+      return rect.top >= 0 && rect.bottom <= window.innerHeight;
+    }
+    
+    // Función para añadir la clase 'fade-up-visible' a los elementos visibles
+    function checkVisibility() {
+      elements.forEach(element => {
+        if (isInViewport(element)) {
+          element.classList.add('fade-up-visible');
+        }
+      });
+    }
+    
+    // Llamar a la función cuando el usuario haga scroll
+    window.addEventListener('scroll', checkVisibility);
+    
+    // Llamar a la función al cargar la página para detectar elementos que ya están visibles
+    checkVisibility();
+  });
+</script>
+
+
+<section class="w-full py-8 mb-10">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-red-500">Normativas ITF</h2>
+  </div>
+  <div class="flex flex-wrap justify-center gap-6 px-6">
+    <!-- Tarjeta 1 -->
+    <div class="bg-white p-6 rounded-lg w-80 text-center fade-up">
+      <img src="https://img.icons8.com/?size=60&id=9761&format=png&color=000000" alt="Logo Competencia" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Competencia</h3>
+      <p class="text-gray-600">Establece las rondas, duración y condiciones para ganar por puntos o nocaut técnico.</p>
+    </div>
+
+    <!-- Tarjeta 2 -->
+    <div class="bg-white p-6 rounded-lg w-80 text-center fade-up">
+      <img src="https://img.icons8.com/?size=60&id=71285&format=png&color=000000" alt="Logo Técnicas Permitidas" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Técnicas Permitidas</h3>
+      <p class="text-gray-600">Solo se permiten golpes con puños, patadas y movimientos defensivos.</p>
+    </div>
+
+    <!-- Tarjeta 3 -->
+    <div class="bg-white p-6 rounded-lg w-80 text-center fade-up">
+      <img src="https://img.icons8.com/?size=60&id=74666&format=png&color=000000" alt="Logo Puntuación" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Puntuación</h3>
+      <p class="text-gray-600">Se otorgan puntos por golpes controlados en áreas específicas del cuerpo.</p>
+    </div>
+
+    <!-- Tarjeta 4 -->
+    <div class="bg-white p-6 rounded-lg w-80 text-center fade-up">
+      <img src="https://img.icons8.com/?size=60&id=Hu8HYn5CINJ5&format=png&color=000000" alt="Logo Penalizaciones" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Penalizaciones</h3>
+      <p class="text-gray-600">Se sancionan faltas como golpes ilegales o no seguir instrucciones del árbitro.</p>
+    </div>
+
+    <!-- Tarjeta 5 -->
+    <div class="bg-white p-6 rounded-lg w-80 text-center fade-up">
+      <img src="https://img.icons8.com/?size=60&id=9795&format=png&color=000000" alt="Logo Equipamiento" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Equipamiento</h3>
+      <p class="text-gray-600">Los competidores deben usar dobok y protección adecuada (casco, guantes, etc.).</p>
+    </div>
+
+    <!-- Tarjeta 6 -->
+    <div class="bg-white p-6 rounded-lg w-80 text-center fade-up">
+      <img src="https://img.icons8.com/?size=60&id=ZLsTR92kwTQL&format=png&color=000000" alt="Logo Disciplina" class="mx-auto mb-4">
+      <h3 class="text-xl font-semibold text-red-500">Disciplina</h3>
+      <p class="text-gray-600">El Taekwondo promueve el respeto y la cortesía entre los participantes.</p>
+    </div>
+  </div>
+
+  <div class="text-center mt-8">
+    <a href="https://itftkd.sport/es/reglas/" target="_blank">
+      <button class="border-2 border-red-500 text-red-500 py-3 px-10 rounded-lg text-lg font-semibold transition duration-300 ease-in-out hover:bg-red-500 hover:text-white">
+        Explorar Normativas
+      </button>
+    </a>
+  </div>
+</section>

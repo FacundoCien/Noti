@@ -1,0 +1,42 @@
+/* src/styles/tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import 'aos/dist/aos.css';
+
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #B0B0B0; /* Gris claro */
+    border-radius: 10px;
+    border: 2px solid #B0B0B0;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #7A7A7A; /* Gris oscuro al hacer hover */
+    border: 2px solid #7A7A7A;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: #153d6b; /* Azul oscuro al hacer clic */
+    border: 2px solid #153d6b;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #F5F5F5; /* Fondo gris claro */
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-horizontal {
+    height: 8px;
+  }
+
+  html {
+scroll-behavior: smooth;
+  }
