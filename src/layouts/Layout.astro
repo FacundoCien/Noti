@@ -1,29 +1,26 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="stylesheet" href="../src/styles/tailwind.css">
-		<meta name="generator" content={Astro.generator} />
-		<title>Noti-Do</title>
-    	<link rel="icon" href="../src/assets/logo.svg" type="image/svg" />
-		<link rel="icon" href="../assets/logo.svg" type="image/svg" />
-		<link rel="icon" href="../logo.svg" type="image/svg" />
-		<link rel="icon" href="/src/assets/logo.svg" type="image/svg" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="../src/styles/tailwind.css">
+	<link rel="stylesheet" href="/src/styles/tailwind.css">
+    <meta name="generator" content={Astro.generator} />
+    <title>Noti-Do</title>
 
-
-
-	</head>
-	<body>
-		<slot />
-	</body>
+    <!-- Correct link for favicon, now placed in the public folder -->
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>
